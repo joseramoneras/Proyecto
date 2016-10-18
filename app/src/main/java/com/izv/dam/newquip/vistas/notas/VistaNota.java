@@ -6,10 +6,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.pojo.Nota;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class VistaNota extends AppCompatActivity implements ContratoNota.InterfaceVista {
 
@@ -51,7 +54,8 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.settings) {
+        if (id == R.id.adjuntar) {
+            Toast.makeText(getApplicationContext(), "ha pulsado adjuntar", LENGTH_SHORT).show();
             return true;
         }
 
