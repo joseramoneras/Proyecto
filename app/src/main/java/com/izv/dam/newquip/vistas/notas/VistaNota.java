@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -18,6 +19,7 @@ import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.pojo.Nota;
 
+import static android.R.attr.focusable;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class VistaNota extends AppCompatActivity implements ContratoNota.InterfaceVista {
@@ -69,11 +71,11 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 Toast.makeText(getApplicationContext(), "aa", Toast.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.editar: {
-                Toast.makeText(getApplicationContext(), editTextTitulo.getText(), Toast.LENGTH_SHORT).show();
-                editTextTitulo.setClickable(true);
+            case R.id.editar:
+                editTextTitulo.setEnabled(true);
+                editTextNota.setEnabled(true);
                 return true;
-            }
+
             default:
                 return super.onOptionsItemSelected(item);
         }

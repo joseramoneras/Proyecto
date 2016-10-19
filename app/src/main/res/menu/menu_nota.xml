@@ -20,11 +20,14 @@
             <group android:id="@+id/grupo1">
 
                 <item android:id="@+id/camara"
-                    android:title="camara"/>
+                    android:title="camara"
+                    android:icon="@mipmap/camara"/>
                 <item android:id="@+id/galeria"
-                    android:title="galeria" />
+                    android:title="galeria"
+                    android:icon="@mipmap/galeria"/>
                 <item android:id="@+id/audio"
-                    android:title="audio" />
+                    android:title="audio"
+                    android:icon="@mipmap/audio"/>
 
             </group>
         </menu>
