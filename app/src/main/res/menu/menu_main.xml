@@ -37,7 +37,6 @@
     <item
         android:id="@+id/imprimir"
         android:title="Imprimir"
-        app:showAsAction="never"
 
-        />
+        app:showAsAction="never" />
 </menu>
