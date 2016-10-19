@@ -55,7 +55,6 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.adjuntar) {
-
             return true;
         }
 
