@@ -29,7 +29,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Titulo Nota"
-                    android:singleLine="true"/>
+                    android:minLines="1"
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -44,11 +45,12 @@
 
 
                     <TextView
-                        android:text="Cuerpo de la Nota"
+                        android:text="¿Qué desea recordar?"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tvTituloContenido"
-                        android:textSize="18sp" />
+                        android:id="@+id/tvNota"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textAllCaps="false" />
 
                     <EditText
                         android:layout_width="match_parent"

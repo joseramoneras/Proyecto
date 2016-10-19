@@ -55,7 +55,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.adjuntar) {
-            Toast.makeText(getApplicationContext(), "ha pulsado adjuntar", LENGTH_SHORT).show();
+
             return true;
         }
 
