@@ -21,7 +21,7 @@
         app:showAsAction="always"
         />
     <item
-        android:id="@+id/settings"
+        android:id="@+id/imprimir"
         android:title="Imprimir"
         app:showAsAction="never"
         />
