@@ -29,8 +29,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Titulo Nota"
-                    android:minLines="1"
-                    android:maxLines="1" />
+                    android:clickable="false"
+                    android:singleLine="true"
+                    android:focusable="false"
+                     />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -57,7 +59,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
                         android:ems="10"
-                        android:id="@+id/etNota" />
+                        android:id="@+id/etNota"
+                        android:editable="false"
+                        android:focusable="false"/>
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

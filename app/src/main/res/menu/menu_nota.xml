@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/recordatorio"
+        android:title="recordatorio"
+        android:icon="@mipmap/recordatorio"
+        app:showAsAction="always"
+        />
+
+    <item
         android:id="@+id/adjuntar"
         android:title="adjuntar"
         android:icon="@mipmap/adjuntar"
@@ -34,9 +41,22 @@
         android:icon="@mipmap/guardar"
         app:showAsAction="always"
         />
-    <item
-        android:id="@+id/imprimir"
-        android:title="Imprimir"
 
-        app:showAsAction="never" />
+    <item
+        android:id="@+id/configuracion"
+        android:title="configuracion"
+        android:icon="@mipmap/configuracion"
+        app:showAsAction="always">
+
+
+        <menu>
+            <group android:id="@+id/grupo2">
+
+                <item android:id="@+id/imprimir"
+                    android:title="imprimir"/>
+
+            </group>
+        </menu>
+
+    </item>
 </menu>

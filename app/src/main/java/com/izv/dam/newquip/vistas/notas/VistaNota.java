@@ -1,5 +1,6 @@
 package com.izv.dam.newquip.vistas.notas;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.pojo.Nota;
@@ -19,6 +24,11 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private EditText editTextTitulo, editTextNota;
     private Nota nota = new Nota();
     private PresentadorNota presentador;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,28 +44,34 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             nota = savedInstanceState.getParcelable("nota");
         } else {
             Bundle b = getIntent().getExtras();
-            if(b != null ) {
+            if (b != null) {
                 nota = b.getParcelable("nota");
             }
         }
         mostrarNota(nota);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_nota, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.recordatorio:
+                //EditText titulo = (EditText) findViewById(R.id.recordatorio);
+                Toast.makeText(getApplicationContext(), "aa", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.editar:
+                EditText titulo = (EditText) findViewById(R.id.etTitulo);
+                titulo.setClickable(true);
+                return true;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.adjuntar) {
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -91,8 +107,44 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         nota.setTitulo(editTextTitulo.getText().toString());
         nota.setNota(editTextNota.getText().toString());
         long r = presentador.onSaveNota(nota);
-        if(r > 0 & nota.getId() == 0){
+        if (r > 0 & nota.getId() == 0) {
             nota.setId(r);
         }
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("VistaNota Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }
