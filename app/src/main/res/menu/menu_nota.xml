@@ -19,11 +19,12 @@
         <menu>
             <group android:id="@+id/grupo1">
 
-                <item android:id="@+id/SubMnuOpc1"
-                    android:title="Opcion 3.1"
-                    android:icon="@mipmap/ic_launcher"/>
-                <item android:id="@+id/SubMnuOpc2"
-                    android:title="Opcion 3.2" />
+                <item android:id="@+id/camara"
+                    android:title="camara"/>
+                <item android:id="@+id/galeria"
+                    android:title="galeria" />
+                <item android:id="@+id/audio"
+                    android:title="audio" />
 
             </group>
         </menu>
