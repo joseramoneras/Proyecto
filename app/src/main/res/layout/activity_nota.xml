@@ -17,57 +17,47 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context=".vistas.notas.VistaNota">
+            tools:context=".vistas.notas.VistaNota"
+            android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <EditText
+                    android:id="@+id/etTitulo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="hint"
-                    android:editable="false"/>
+                    android:hint="Titulo Nota"
+                    android:singleLine="true"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="265dp">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <EditText
+
+                    <TextView
+                        android:text="Cuerpo de la Nota"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/etTitulo"
-                        android:hint="titulo" />
+                        android:id="@+id/tvTituloContenido"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
                         android:ems="10"
-                        android:id="@+id/etNota"
-                        android:hint="nota" />
-
+                        android:id="@+id/etNota" />
                 </LinearLayout>
-
             </ScrollView>
-
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                app:fabSize="mini"
-                app:srcCompat="@mipmap/ic_launcher"
-                android:id="@+id/floatingActionButton"
-                android:layout_gravity="bottom|end"
-                android:layout_weight="1" />
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
