@@ -29,9 +29,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Titulo Nota"
-                    android:singleLine="true"
-                    android:enabled="false" />
-
+                    android:inputType="text"
+                    android:background="@android:color/transparent"
+                    android:enabled="false"
+                />
             </android.support.design.widget.TextInputLayout>
 
             <ScrollView
@@ -50,7 +51,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvNota"
                         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                        android:textAllCaps="false" />
+                        android:textAllCaps="false"
+                        android:layout_marginTop="15dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -58,9 +60,28 @@
                         android:inputType="textMultiLine"
                         android:ems="10"
                         android:id="@+id/etNota"
-                        android:enabled="false"/>
+                        android:enabled="false"
+                        android:background="@android:color/transparent"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"></LinearLayout>
+
                 </LinearLayout>
             </ScrollView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@color/common_google_signin_btn_text_dark_default"
+                    android:id="@+id/imageView" />
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

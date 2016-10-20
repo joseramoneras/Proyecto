@@ -13,7 +13,8 @@
         android:id="@+id/adjuntar"
         android:title="adjuntar"
         android:icon="@mipmap/adjuntar"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        >
 
 
         <menu>

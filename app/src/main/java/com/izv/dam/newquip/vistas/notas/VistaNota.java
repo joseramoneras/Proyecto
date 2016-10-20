@@ -3,11 +3,13 @@ package com.izv.dam.newquip.vistas.notas;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +74,19 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 Toast.makeText(getApplicationContext(), "aa", Toast.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.editar:
+            case R.id.editar: {
                 editTextTitulo.setEnabled(true);
                 editTextNota.setEnabled(true);
                 return true;
+            }
+            case R.id.galeria: {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");//para que busque cualquier tipo de imagen
+                startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), 200);//el 200 es para ver si da un valor positivo
+                Uri path = intent.getData();
+                imageView.setImageURI(path);
+                return true;
+            }
 
             default:
                 return super.onOptionsItemSelected(item);
