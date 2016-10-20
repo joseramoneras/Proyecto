@@ -95,11 +95,12 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                     try {
                         lp =  new ListaPermisos();
                         bmp = MediaStore.Images.Media.getBitmap( getContentResolver(), data.getData());
+                        imageView.setImageBitmap(bmp);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     //imageView.setVisibility(View.VISIBLE);
-                    imageView.setImageBitmap(bmp);
+
                 }
                 break;
         }
