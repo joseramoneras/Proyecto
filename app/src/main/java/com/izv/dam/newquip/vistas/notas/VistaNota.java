@@ -62,6 +62,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         mostrarNota(nota);
     }
 
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_nota, menu);
@@ -107,7 +108,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 }
                 break;
         }
-
+        http://android.pedro-varela.com/2015/11/solicitar-permisos-en-tiempo-de.html
     }
 
     @Override
