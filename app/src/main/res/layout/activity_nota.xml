@@ -79,8 +79,9 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@color/common_google_signin_btn_text_dark_default"
-                    android:id="@+id/imageView" />
+                    app:srcCompat="@color/colorPrimaryDark"
+                    android:id="@+id/imageView"
+                    android:visibility="invisible" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
