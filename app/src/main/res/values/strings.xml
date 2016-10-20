@@ -11,4 +11,5 @@
     <string name="titulo">Titulo</string>
     <string name="action_settings">settings</string>
     <string name="permission_write_storage">Permiso de escritura necesario</string>
+    <string name="setting">Configuración</string>
 </resources>

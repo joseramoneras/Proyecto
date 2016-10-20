@@ -38,7 +38,7 @@ public class ListaPermisos extends AppCompatActivity {
         setContentView(R.layout.activity_nota);
         mLayout = findViewById(R.id.prueba);
 
-        final EditText editText = (EditText) findViewById(R.id.adjuntar);
+        final EditText editText = (EditText) findViewById(R.id.galeria);
         editText.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -57,7 +57,7 @@ public class ListaPermisos extends AppCompatActivity {
         //WRITE_EXTERNAL_STORAGE tiene implícito READ_EXTERNAL_STORAGE porque pertenecen al mismo
         //grupo de permisos
 
-        int writePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int writePermission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (writePermission != PackageManager.PERMISSION_GRANTED) {
             requestPermission();
@@ -73,11 +73,11 @@ public class ListaPermisos extends AppCompatActivity {
         //shouldShowRequestPermissionRationale es verdadero solamente si ya se había mostrado
         //anteriormente el dialogo de permisos y el usuario lo negó
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
             showSnackBar();
         } else {
             //si es la primera vez se solicita el permiso directamente
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_WRITE_EXTERNAL_STORAGE);
         }
     }
@@ -106,7 +106,7 @@ public class ListaPermisos extends AppCompatActivity {
     private void showSnackBar() {
         Snackbar.make(mLayout, R.string.permission_write_storage,
                 Snackbar.LENGTH_LONG)
-                .setAction(R.string.common_signin_button_text, new View.OnClickListener() {
+                .setAction(R.string.setting, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         openSettings();
