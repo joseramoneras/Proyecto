@@ -39,6 +39,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
      */
 
     private ImageView imageView;
+    Bitmap bmp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +96,13 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         switch (requestCode){
             case 200:
                 if(resultCode == RESULT_OK) {
-                    Bitmap bmp = null;
+
                     try {
                         bmp = MediaStore.Images.Media.getBitmap( getContentResolver(), data.getData());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    imageView.setVisibility(View.VISIBLE);
+                    //imageView.setVisibility(View.VISIBLE);
                     imageView.setImageBitmap(bmp);
                 }
                 break;

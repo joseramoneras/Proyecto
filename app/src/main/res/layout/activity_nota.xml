@@ -80,8 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:srcCompat="@color/colorPrimaryDark"
-                    android:id="@+id/imageView"
-                    android:visibility="invisible" />
+                    android:id="@+id/imageView" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
