@@ -15,13 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.pojo.Nota;
+import com.izv.dam.newquip.util.ListaPermisos;
 
 import java.io.IOException;
 
@@ -33,13 +30,10 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private EditText editTextTitulo, editTextNota;
     private Nota nota = new Nota();
     private PresentadorNota presentador;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
 
     private ImageView imageView;
     Bitmap bmp = null;
+    private ListaPermisos lp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +93,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 if(resultCode == RESULT_OK) {
 
                     try {
+                        lp =  new ListaPermisos();
                         bmp = MediaStore.Images.Media.getBitmap( getContentResolver(), data.getData());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -108,7 +103,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 }
                 break;
         }
-        http://android.pedro-varela.com/2015/11/solicitar-permisos-en-tiempo-de.html
+       // http://android.pedro-varela.com/2015/11/solicitar-permisos-en-tiempo-de.html
     }
 
     @Override
