@@ -2,28 +2,22 @@ package com.izv.dam.newquip.vistas.notas;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.pojo.Nota;
-import com.izv.dam.newquip.util.ListaPermisos;
+import com.izv.dam.newquip.vistas.main.VistaQuip;
 
 import java.io.IOException;
-
-import static android.R.attr.focusable;
-import static android.widget.Toast.LENGTH_SHORT;
 
 public class VistaNota extends AppCompatActivity implements ContratoNota.InterfaceVista {
 
@@ -31,9 +25,6 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private Nota nota = new Nota();
     private PresentadorNota presentador;
 
-    private ImageView imageView;
-    Bitmap bmp = null;
-    private ListaPermisos lp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +72,16 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             intent.setType("image/*");//para que busque cualquier tipo de imagen
             startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), 200);//el 200 es para ver si da un valor positivo
         }
+        if(id == R.id.guardar){
+            //Toast.makeText(getApplicationContext(), "aa", Toast.LENGTH_SHORT).show();
+            saveNota();
+            Intent intent = new Intent(VistaNota.this, VistaQuip.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -91,20 +90,18 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         switch (requestCode){
             case 200:
                 if(resultCode == RESULT_OK) {
-
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                    Bitmap bmp = null;
+                    imageView.setVisibility(View.VISIBLE);
                     try {
-                        lp =  new ListaPermisos();
                         bmp = MediaStore.Images.Media.getBitmap( getContentResolver(), data.getData());
                         imageView.setImageBitmap(bmp);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //imageView.setVisibility(View.VISIBLE);
-
                 }
                 break;
         }
-       // http://android.pedro-varela.com/2015/11/solicitar-permisos-en-tiempo-de.html
     }
 
     @Override
