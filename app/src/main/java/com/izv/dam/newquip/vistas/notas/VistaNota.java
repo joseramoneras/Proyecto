@@ -61,7 +61,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         int id = item.getItemId();
         if( id == R.id.recordatorio) {
             //EditText titulo = (EditText) findViewById(R.id.recordatorio);
-            Toast.makeText(getApplicationContext(), "aa", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "recordatorio", Toast.LENGTH_SHORT).show();
         }
         if(id == R.id.editar) {
             editTextTitulo.setEnabled(true);
