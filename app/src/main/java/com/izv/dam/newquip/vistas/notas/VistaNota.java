@@ -73,8 +73,8 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), 200);//el 200 es para ver si da un valor positivo
         }
         if(id == R.id.guardar){
-            //Toast.makeText(getApplicationContext(), "aa", Toast.LENGTH_SHORT).show();
             saveNota();
+            Toast.makeText(getApplicationContext(), "Su nota ha sido guardada", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(VistaNota.this, VistaQuip.class);
             startActivity(intent);
         }
