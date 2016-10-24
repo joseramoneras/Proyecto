@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.pojo.Nota;
+import com.izv.dam.newquip.util.ImprimirPDF;
 import com.izv.dam.newquip.vistas.main.VistaQuip;
 
 import java.io.IOException;
@@ -77,6 +78,15 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             Toast.makeText(getApplicationContext(), "Su nota ha sido guardada", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(VistaNota.this, VistaQuip.class);
             startActivity(intent);
+        }
+        if(id == R.id.camara){
+
+        }
+        if(id == R.id.imprimir){
+            Toast.makeText(getApplicationContext(), "Se esta imprimiendo la nota...", Toast.LENGTH_SHORT).show();
+            ImprimirPDF i = new ImprimirPDF();
+            i.imprimir();
+
         }
         return super.onOptionsItemSelected(item);
     }
