@@ -20,6 +20,9 @@
         <menu>
             <group android:id="@+id/grupo1">
 
+                <item android:id="@+id/a"
+                    android:title=""
+                    />
                 <item android:id="@+id/camara"
                     android:title="camara"
                     android:icon="@mipmap/camara"/>

@@ -18,15 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".vistas.notas.VistaNota">
+        <activity android:name=".vistas.notas.VistaNota"
+            android:label="home"
+            android:parentActivityName="com.izv.dam.newquip.vistas.main.VistaQuip" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".vistas.main.VistaQuip" />
+                android:value="vistas.main.VistaQuip" />
         </activity>
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.izv.dam.newquip.vistas.main.VistaQuip" />
+
 
     </application>
 
