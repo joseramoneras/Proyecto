@@ -1,9 +1,12 @@
 package com.izv.dam.newquip.vistas.notas;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,9 +87,25 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         }
         if(id == R.id.imprimir){
             Toast.makeText(getApplicationContext(), "Se esta imprimiendo la nota...", Toast.LENGTH_SHORT).show();
-            ImprimirPDF i = new ImprimirPDF();
-            i.imprimir();
+            //ImprimirPDF i = new ImprimirPDF();
+            //i.imprimir();
 
+        }
+        if(id == R.id.home){
+            Intent upIntent = NavUtils.getParentActivityIntent(this);
+            if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                // This activity is NOT part of this app's task, so create a new task
+                // when navigating up, with a synthesized back stack.
+                TaskStackBuilder.create(this)
+                        // Add all of this activity's parents to the back stack
+                        .addNextIntentWithParentStack(upIntent)
+                        // Navigate up to the closest parent
+                        .startActivities();
+            } else {
+                // This activity is part of this app's task, so simply
+                // navigate up to the logical parent activity.
+                NavUtils.navigateUpTo(this, upIntent);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -116,7 +135,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
     @Override
     protected void onPause() {
-        saveNota();
+        //saveNota();
         presentador.onPause();
         super.onPause();
     }

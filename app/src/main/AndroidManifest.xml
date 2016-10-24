@@ -24,6 +24,10 @@
                 android:value=".vistas.main.VistaQuip" />
         </activity>
 
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.izv.dam.newquip.vistas.main.VistaQuip" />
+
     </application>
 
 </manifest>
