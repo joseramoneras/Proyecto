@@ -14,15 +14,13 @@
         android:title="adjuntar"
         android:icon="@mipmap/adjuntar"
         app:showAsAction="always"
+        style="@style/grupo1"
         >
 
 
         <menu>
             <group android:id="@+id/grupo1">
 
-                <item android:id="@+id/a"
-                    android:title=""
-                    />
                 <item android:id="@+id/camara"
                     android:title="camara"
                     android:icon="@mipmap/camara"/>

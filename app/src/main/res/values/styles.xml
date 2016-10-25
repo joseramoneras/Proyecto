@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="grupo1">
+        <item name="android:paddingTop">200dp</item>
+    </style>
 </resources>

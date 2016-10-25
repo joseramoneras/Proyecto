@@ -1,6 +1,7 @@
 package com.izv.dam.newquip.vistas.notas;
 
 import android.app.ActionBar;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -64,8 +65,10 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if( id == R.id.recordatorio) {
-            //EditText titulo = (EditText) findViewById(R.id.recordatorio);
             Toast.makeText(getApplicationContext(), "recordatorio", Toast.LENGTH_SHORT).show();
+        }
+        if(id == R.id.adjuntar){
+
         }
         if(id == R.id.editar) {
             editTextTitulo.setEnabled(true);
