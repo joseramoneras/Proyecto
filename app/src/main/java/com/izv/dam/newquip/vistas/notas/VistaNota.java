@@ -4,11 +4,16 @@ import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +27,22 @@ import com.izv.dam.newquip.pojo.Nota;
 import com.izv.dam.newquip.util.ImprimirPDF;
 import com.izv.dam.newquip.vistas.main.VistaQuip;
 
+import java.io.File;
 import java.io.IOException;
+
+import static android.R.attr.path;
 
 public class VistaNota extends AppCompatActivity implements ContratoNota.InterfaceVista {
 
     private EditText editTextTitulo, editTextNota;
     private Nota nota = new Nota();
     private PresentadorNota presentador;
+    private static String APP_DIRECTORY = "MyPicture/";
+    private static String MEDIA_DIRECTORY = APP_DIRECTORY + "QuipMedia";//carpeta que me crea
+    private String nombreImagen;
+    private String rutaImage;
+    private final int GALERIA = 200;
+    private final int CAMARA = 201;
 
 
     @Override
@@ -77,7 +91,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         if(id == R.id.galeria) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.setType("image/*");//para que busque cualquier tipo de imagen
-            startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), 200);//el 200 es para ver si da un valor positivo
+            startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), GALERIA);
         }
         if(id == R.id.guardar){
             saveNota();
@@ -86,6 +100,22 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             startActivity(intent);
         }
         if(id == R.id.camara){
+            File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
+            boolean isDirectoryCreated = file.exists();
+            if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
+            if(isDirectoryCreated){
+                Long timestamp = System.currentTimeMillis() / 1000;
+                nombreImagen = timestamp.toString() + ".jpg";
+                rutaImage = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY + File.separator + nombreImagen;
+                File newFile = new File(rutaImage);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+                startActivityForResult(intent, CAMARA);
+
+
+
+                //https://www.youtube.com/watch?v=Nt5GMaFUvog
+            }
 
         }
         if(id == R.id.imprimir){
@@ -112,7 +142,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
-            case 200:
+            case GALERIA:
                 if(resultCode == RESULT_OK) {
                     ImageView imageView = (ImageView) findViewById(R.id.imageView);
                     Bitmap bmp = null;
@@ -123,6 +153,25 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
+                break;
+            case CAMARA:
+                if(resultCode == RESULT_OK) {
+
+                    ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
+                    Bitmap bmp = null;
+                    imageView2.setVisibility(View.VISIBLE);
+
+                    //camara
+                    MediaScannerConnection.scanFile(this, new String[]{rutaImage}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String path, Uri uri) {
+                            Log.i("ExternalStorage", "Scanned " + path + ":");
+                            Log.i("ExternalStorage", "-> Uri = " + uri);
+                        }
+                    });
+                    bmp = BitmapFactory.decodeFile(rutaImage);
+                    imageView2.setImageBitmap(bmp);
                 }
                 break;
         }

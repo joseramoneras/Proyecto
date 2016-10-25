@@ -13,10 +13,7 @@
         android:id="@+id/adjuntar"
         android:title="adjuntar"
         android:icon="@mipmap/adjuntar"
-        app:showAsAction="always"
-        style="@style/grupo1"
-        >
-
+        app:showAsAction="always">
 
         <menu>
             <group android:id="@+id/grupo1">
