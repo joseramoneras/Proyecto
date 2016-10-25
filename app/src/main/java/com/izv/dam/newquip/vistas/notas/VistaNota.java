@@ -120,8 +120,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         }
         if(id == R.id.imprimir){
             Toast.makeText(getApplicationContext(), "Se esta imprimiendo la nota...", Toast.LENGTH_SHORT).show();
-            //ImprimirPDF i = new ImprimirPDF();
-            //i.imprimir();
+            ImprimirPDF.imprimir(this);
 
         }
         if(id == android.R.id.home){
