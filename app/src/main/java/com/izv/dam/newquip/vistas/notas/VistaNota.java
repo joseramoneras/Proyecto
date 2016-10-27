@@ -1,8 +1,10 @@
 package com.izv.dam.newquip.vistas.notas;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -12,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -43,6 +46,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private String rutaImage;
     private final int GALERIA = 200;
     private final int CAMARA = 201;
+    private final int REQUEST_EXTERNAL_STORAGE_RESULT =1;
 
 
     @Override
@@ -210,4 +214,16 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         }
     }
 
+
+    public void hacerFoto(View view){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            llamarCamara();
+        }
+        else{
+            if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                Toast.makeText(this, "Permisos requeridos para guardar imagen", Toast.LENGTH_SHORT).show();
+            }
+            requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_EXTERNAL_STORAGE_RESULT);
+        }
+    }
 }
