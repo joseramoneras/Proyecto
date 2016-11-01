@@ -20,8 +20,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
@@ -84,6 +86,14 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         int id = item.getItemId();
         if( id == R.id.recordatorio) {
             Toast.makeText(getApplicationContext(), "recordatorio", Toast.LENGTH_SHORT).show();
+            CalendarView calendar = (CalendarView) findViewById(R.id.calendario1);
+            calendar.setVisibility(View.VISIBLE);
+
+
+            LinearLayout calendario = (LinearLayout) findViewById(R.id.calendario);
+
+
+            calendario.setVisibility(View.VISIBLE);
         }
         if(id == R.id.adjuntar){
 
@@ -214,16 +224,4 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         }
     }
 
-
-    public void hacerFoto(View view){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            llamarCamara();
-        }
-        else{
-            if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                Toast.makeText(this, "Permisos requeridos para guardar imagen", Toast.LENGTH_SHORT).show();
-            }
-            requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_EXTERNAL_STORAGE_RESULT);
-        }
-    }
 }
