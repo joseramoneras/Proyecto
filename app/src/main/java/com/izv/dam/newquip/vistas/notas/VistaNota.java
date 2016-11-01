@@ -3,6 +3,8 @@ package com.izv.dam.newquip.vistas.notas;
 import android.Manifest;
 import android.app.ActionBar;
 import android.content.ClipData;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,9 +14,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -30,6 +34,7 @@ import com.izv.dam.newquip.R;
 import com.izv.dam.newquip.contrato.ContratoNota;
 import com.izv.dam.newquip.pojo.Nota;
 import com.izv.dam.newquip.util.ImprimirPDF;
+import com.izv.dam.newquip.util.Permisos;
 import com.izv.dam.newquip.vistas.main.VistaQuip;
 
 import java.io.File;
@@ -47,8 +52,13 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private String nombreImagen;
     private String rutaImage;
     private final int GALERIA = 200;
-    private final int CAMARA = 201;
+    private final int HACER_FOTO = 201;
     private final int REQUEST_EXTERNAL_STORAGE_RESULT =1;
+
+    // asd  as
+
+    private static final int SOLICITUD_PERMISO_CAMARA = 1;
+    private Intent camara;
 
 
     @Override
@@ -89,14 +99,8 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             CalendarView calendar = (CalendarView) findViewById(R.id.calendario1);
             calendar.setVisibility(View.VISIBLE);
 
-
             LinearLayout calendario = (LinearLayout) findViewById(R.id.calendario);
-
-
             calendario.setVisibility(View.VISIBLE);
-        }
-        if(id == R.id.adjuntar){
-
         }
         if(id == R.id.editar) {
             editTextTitulo.setEnabled(true);
@@ -114,6 +118,8 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             startActivity(intent);
         }
         if(id == R.id.camara){
+            PermisosCamara();
+
             File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
             boolean isDirectoryCreated = file.exists();
             if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
@@ -124,9 +130,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 File newFile = new File(rutaImage);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
-                startActivityForResult(intent, CAMARA);
-
-
+                startActivityForResult(intent, HACER_FOTO);
 
                 //https://www.youtube.com/watch?v=Nt5GMaFUvog
             }
@@ -168,7 +172,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                     }
                 }
                 break;
-            case CAMARA:
+            case HACER_FOTO:
                 if(resultCode == RESULT_OK) {
 
                     ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
@@ -223,5 +227,83 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             nota.setId(r);
         }
     }
+
+
+
+  public void PermisosCamara(){
+
+        camara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        /**
+         * ¿Tengo el permiso para hacer la accion?
+         */                                                                             ///PERMISO CONCENDIDO
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(camara);
+            Toast.makeText(this, "1 Permiso Concedido", Toast.LENGTH_SHORT).show();
+        } else {
+            explicarUsoPermiso();
+            solicitarPermisoHacerLlamada();
+        }
+    }
+
+    private void explicarUsoPermiso() {
+        //Este IF es necesario para saber si el usuario ha marcado o no la casilla [] No volver a preguntar
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+            Toast.makeText(this, "2.1 Explicamos razonadamente porque necesitamos el permiso", Toast.LENGTH_SHORT).show();
+            //Explicarle al usuario porque necesitas el permiso (Opcional)
+            alertDialogBasico();
+        }
+    }
+
+    private void solicitarPermisoHacerLlamada() {
+        //Pedimos el permiso o los permisos con un cuadro de dialogo del sistema
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.CAMERA}, SOLICITUD_PERMISO_CAMARA);
+
+        //startActivityForResult(camara, HACER_FOTO);
+
+        Toast.makeText(this, "2.2 Pedimos el permiso con un cuadro de dialogo del sistema", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        /**
+         * Si tubieramos diferentes permisos solicitando permisos de la aplicacion, aqui habria varios IF
+         */
+        if (requestCode == SOLICITUD_PERMISO_CAMARA) {
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Realizamos la accion
+                startActivity(camara);
+                Toast.makeText(this, "3.1 Permiso Concedido", Toast.LENGTH_SHORT).show();
+            } else {
+                //1-Seguimos el proceso de ejecucion sin esta accion: Esto lo recomienda Google
+                //2-Cancelamos el proceso actual
+                //3-Salimos de la aplicacion
+                Toast.makeText(this, "3.2 Permiso No Concedido", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    public void alertDialogBasico() {
+
+
+        // 1. Instancia de AlertDialog.Builder con este constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+
+
+        builder.show();
+
+    }
+
 
 }
