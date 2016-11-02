@@ -58,6 +58,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     // asd  as
 
     private static final int SOLICITUD_PERMISO_CAMARA = 1;
+    public static boolean permisos = false;
     private Intent camara;
 
 
@@ -79,6 +80,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 nota = b.getParcelable("nota");
             }
         }
+
         mostrarNota(nota);
     }
 
@@ -118,22 +120,26 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             startActivity(intent);
         }
         if(id == R.id.camara){
-            PermisosCamara();
+            Permisos permisosCamara = new Permisos(this);
+            permisos = permisosCamara.PermisosCamara(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE});
 
-            File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
-            boolean isDirectoryCreated = file.exists();
-            if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
-            if(isDirectoryCreated){
-                Long timestamp = System.currentTimeMillis() / 1000;
-                nombreImagen = timestamp.toString() + ".jpg";
-                rutaImage = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY + File.separator + nombreImagen;
-                File newFile = new File(rutaImage);
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
-                startActivityForResult(intent, HACER_FOTO);
-
-                //https://www.youtube.com/watch?v=Nt5GMaFUvog
+            if (permisos) {
+                File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
+                boolean isDirectoryCreated = file.exists();
+                if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
+                if(isDirectoryCreated){
+                    Long timestamp = System.currentTimeMillis() / 1000;
+                    nombreImagen = timestamp.toString() + ".jpg";
+                    rutaImage = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY + File.separator + nombreImagen;
+                    File newFile = new File(rutaImage);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+                    startActivityForResult(intent, HACER_FOTO);
+                }else{
+                    permisosCamara.PermisosCamara(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+                }
             }
+
 
         }
         if(id == R.id.imprimir){
@@ -157,7 +163,6 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode){
             case GALERIA:
                 if(resultCode == RESULT_OK) {
@@ -179,7 +184,6 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                     Bitmap bmp = null;
                     imageView2.setVisibility(View.VISIBLE);
 
-                    //camara
                     MediaScannerConnection.scanFile(this, new String[]{rutaImage}, null, new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
                         public void onScanCompleted(String path, Uri uri) {
@@ -230,7 +234,14 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
 
 
-  public void PermisosCamara(){
+
+
+dasdas das dasdas
+
+
+
+
+    public void PermisosCamara(){
 
         camara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         /**
@@ -304,6 +315,10 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         builder.show();
 
     }
+
+
+
+
 
 
 }
