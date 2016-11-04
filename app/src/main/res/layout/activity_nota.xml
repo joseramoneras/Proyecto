@@ -13,6 +13,13 @@
         android:id="@+id/calendario"
         >
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Texto"
+            android:id="@+id/t"
+            android:visibility="invisible"
+            />
         <CalendarView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,11 +90,6 @@
                         android:enabled="false"
                         android:background="@android:color/transparent"/>
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"></LinearLayout>
-
                 </LinearLayout>
             </ScrollView>
 
@@ -101,12 +103,6 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@color/colorPrimaryDark"
                     android:id="@+id/imageView"
-                    android:visibility="invisible"/>
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@color/colorPrimaryDark"
-                    android:id="@+id/imageView2"
                     android:visibility="invisible"/>
             </LinearLayout>
         </LinearLayout>

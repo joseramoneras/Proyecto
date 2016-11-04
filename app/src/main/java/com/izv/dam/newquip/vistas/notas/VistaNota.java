@@ -28,6 +28,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
@@ -99,14 +100,17 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         if( id == R.id.recordatorio) {
             Toast.makeText(getApplicationContext(), "recordatorio", Toast.LENGTH_SHORT).show();
             CalendarView calendar = (CalendarView) findViewById(R.id.calendario1);
-            calendar.setVisibility(View.VISIBLE);
+            calendar.setVisibility(calendar.VISIBLE);
 
             LinearLayout calendario = (LinearLayout) findViewById(R.id.calendario);
-            calendario.setVisibility(View.VISIBLE);
+            calendario.setVisibility(calendario.VISIBLE);
+
+
+
         }
         if(id == R.id.editar) {
-            editTextTitulo.setEnabled(true);
-            editTextNota.setEnabled(true);
+            editTextTitulo.setEnabled(!editTextTitulo.isEnabled());
+            editTextNota.setEnabled(!editTextNota.isEnabled());
         }
         if(id == R.id.galeria) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -115,7 +119,11 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         }
         if(id == R.id.guardar){
             saveNota();
-            Toast.makeText(getApplicationContext(), "Su nota ha sido guardada", Toast.LENGTH_SHORT).show();
+            if(!editTextTitulo.getText().toString().isEmpty()){
+                Toast.makeText(getApplicationContext(), "Su nota \""+editTextTitulo.getText().toString()+"\" ha sido guardada", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Su nota ha sido guardada", Toast.LENGTH_SHORT).show();
+            }
             Intent intent = new Intent(VistaNota.this, VistaQuip.class);
             startActivity(intent);
         }
@@ -139,13 +147,10 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                     permisosCamara.PermisosCamara(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE});
                 }
             }
-
-
         }
         if(id == R.id.imprimir){
             Toast.makeText(getApplicationContext(), "Se esta imprimiendo la nota...", Toast.LENGTH_SHORT).show();
             ImprimirPDF.imprimir(this);
-
         }
         if(id == android.R.id.home){
             Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -163,11 +168,11 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        Bitmap bmp = null;
         switch (requestCode){
             case GALERIA:
                 if(resultCode == RESULT_OK) {
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                    Bitmap bmp = null;
                     imageView.setVisibility(View.VISIBLE);
                     try {
                         bmp = MediaStore.Images.Media.getBitmap( getContentResolver(), data.getData());
@@ -179,10 +184,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 break;
             case HACER_FOTO:
                 if(resultCode == RESULT_OK) {
-
-                    ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
-                    Bitmap bmp = null;
-                    imageView2.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.VISIBLE);
 
                     MediaScannerConnection.scanFile(this, new String[]{rutaImage}, null, new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
@@ -192,7 +194,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                         }
                     });
                     bmp = BitmapFactory.decodeFile(rutaImage);
-                    imageView2.setImageBitmap(bmp);
+                    imageView .setImageBitmap(bmp);
                 }
                 break;
         }
@@ -233,20 +235,9 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     }
 
 
-
-
-
-dasdas das dasdas
-
-
-
-
-    public void PermisosCamara(){
+    /*public void PermisosCamara(){
 
         camara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        /**
-         * ¿Tengo el permiso para hacer la accion?
-         */                                                                             ///PERMISO CONCENDIDO
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             startActivity(camara);
             Toast.makeText(this, "1 Permiso Concedido", Toast.LENGTH_SHORT).show();
@@ -279,9 +270,7 @@ dasdas das dasdas
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        /**
-         * Si tubieramos diferentes permisos solicitando permisos de la aplicacion, aqui habria varios IF
-         */
+
         if (requestCode == SOLICITUD_PERMISO_CAMARA) {
 
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -314,11 +303,5 @@ dasdas das dasdas
 
         builder.show();
 
-    }
-
-
-
-
-
-
+    }*/
 }

@@ -14,7 +14,6 @@
         android:title="adjuntar"
         android:icon="@mipmap/adjuntar"
         app:showAsAction="always">
-
         <menu>
             <group android:id="@+id/grupo1">
 
@@ -30,8 +29,8 @@
 
             </group>
         </menu>
-
     </item>
+
     <item
         android:id="@+id/editar"
         android:title="editar"
