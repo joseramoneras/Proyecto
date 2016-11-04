@@ -109,6 +109,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
         }
         if(id == R.id.editar) {
+            editTextTitulo.setFocusable(true);
             editTextTitulo.setEnabled(!editTextTitulo.isEnabled());
             editTextNota.setEnabled(!editTextNota.isEnabled());
         }

@@ -13,13 +13,6 @@
         android:id="@+id/calendario"
         >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Texto"
-            android:id="@+id/t"
-            android:visibility="invisible"
-            />
         <CalendarView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,6 +52,7 @@
                     android:inputType="text"
                     android:background="@android:color/transparent"
                     android:enabled="false"
+                    android:focusable="false"
                 />
             </android.support.design.widget.TextInputLayout>
 
