@@ -26,8 +26,9 @@ dependencies {
         compile 'com.android.support:design:24.2.1'
     })
 
-    compile 'com.itextpdf:itextg:5.5.9'
+    compile 'com.itextpdf:itextg:5.5.10'
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:24.2.1'
+    compile 'com.itextpdf.tool:xmlworker:5.5.10'
 }

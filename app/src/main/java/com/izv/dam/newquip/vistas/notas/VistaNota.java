@@ -28,6 +28,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.izv.dam.newquip.R;
@@ -54,10 +55,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
     private final int GALERIA = 200;
     private final int HACER_FOTO = 201;
     private final int REQUEST_EXTERNAL_STORAGE_RESULT =1;
-
-    // asd  as
-
-    private static final int SOLICITUD_PERMISO_CAMARA = 1;
+    public static boolean permisosB = false;
 
 
     @Override
@@ -78,6 +76,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 nota = b.getParcelable("nota");
             }
         }
+
         mostrarNota(nota);
     }
 
@@ -90,55 +89,74 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
 
     @Override
 
+
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.recordatorio) {
+        if( id == R.id.recordatorio) {
             Toast.makeText(getApplicationContext(), "recordatorio", Toast.LENGTH_SHORT).show();
-            /*CalendarView calendar = (CalendarView) findViewById(R.id.calendario1);
-            calendar.setVisibility(View.VISIBLE);
+            CalendarView calendar = (CalendarView) findViewById(R.id.calendario1);
+            calendar.setVisibility(calendar.VISIBLE);
 
             LinearLayout calendario = (LinearLayout) findViewById(R.id.calendario);
-            calendario.setVisibility(View.VISIBLE);*/
-        }
-        if (id == R.id.editar) {
+            calendario.setVisibility(calendario.VISIBLE);
 
+
+
+        }
+        if(id == R.id.editar) {
+            editTextTitulo.setFocusable(true);
             editTextTitulo.setEnabled(!editTextTitulo.isEnabled());
             editTextNota.setEnabled(!editTextNota.isEnabled());
-            editTextTitulo.setFocusable(true);
         }
-        if (id == R.id.galeria) {
+        if(id == R.id.galeria) {
             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.setType("image/*");//para que busque cualquier tipo de imagen
             startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), GALERIA);
         }
-        if (id == R.id.guardar) {
+        if(id == R.id.guardar){
             saveNota();
-            Toast.makeText(getApplicationContext(), "Su nota ha sido guardada", Toast.LENGTH_SHORT).show();
+            if(!editTextTitulo.getText().toString().isEmpty()){
+                Toast.makeText(getApplicationContext(), "Su nota \""+editTextTitulo.getText().toString()+"\" ha sido guardada", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Su nota ha sido guardada", Toast.LENGTH_SHORT).show();
+            }
             Intent intent = new Intent(VistaNota.this, VistaQuip.class);
             startActivity(intent);
         }
-        if (id == R.id.camara) {
-            Permisos p = new Permisos(this);
-            p.PermisosCamara(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
+        if(id == R.id.camara){
+            Permisos permisos = new Permisos(this);
+            permisosB = permisos.permisosAPP(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE});
 
-            File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
-            boolean isDirectoryCreated = file.exists();
-            if (!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
-            if (isDirectoryCreated) {
-                Long timestamp = System.currentTimeMillis() / 1000;
-                nombreImagen = timestamp.toString() + ".jpg";
-                rutaImage = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY + File.separator + nombreImagen;
-                File newFile = new File(rutaImage);
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
-                startActivityForResult(intent, HACER_FOTO);
+            if (permisosB) {
+                File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
+                boolean isDirectoryCreated = file.exists();
+                if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
+                if(isDirectoryCreated){
+                    Long timestamp = System.currentTimeMillis() / 1000;
+                    nombreImagen = timestamp.toString() + ".jpg";
+                    rutaImage = Environment.getExternalStorageDirectory() + File.separator + MEDIA_DIRECTORY + File.separator + nombreImagen;
+                    File newFile = new File(rutaImage);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+                    startActivityForResult(intent, HACER_FOTO);
+                }else{
+                    permisos.permisosAPP(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+                }
             }
         }
-        if (id == R.id.imprimir) {
-            Toast.makeText(getApplicationContext(), "Se esta imprimiendo la nota...", Toast.LENGTH_SHORT).show();
-            ImprimirPDF.imprimir(this);
+        if(id == R.id.imprimir){
+            Permisos permisos = new Permisos(this);
+            permisosB = permisos.permisosAPP(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE});
+
+            if (permisosB) {
+                Toast.makeText(getApplicationContext(), "Se esta imprimiendo  la nota...", Toast.LENGTH_SHORT).show();
+                ImprimirPDF.imprimir(this);
+            }
+            else {
+                permisos.permisosAPP(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
+            }
         }
-        if (id == android.R.id.home) {
+        if(id == android.R.id.home){
             Intent upIntent = NavUtils.getParentActivityIntent(this);
             if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                 TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
@@ -149,17 +167,16 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         Bitmap bmp = null;
-
         switch (requestCode){
             case GALERIA:
                 if(resultCode == RESULT_OK) {
-
                     imageView.setVisibility(View.VISIBLE);
                     try {
                         bmp = MediaStore.Images.Media.getBitmap( getContentResolver(), data.getData());
@@ -172,6 +189,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             case HACER_FOTO:
                 if(resultCode == RESULT_OK) {
                     imageView.setVisibility(View.VISIBLE);
+
                     MediaScannerConnection.scanFile(this, new String[]{rutaImage}, null, new MediaScannerConnection.OnScanCompletedListener() {
                         @Override
                         public void onScanCompleted(String path, Uri uri) {
@@ -180,7 +198,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                         }
                     });
                     bmp = BitmapFactory.decodeFile(rutaImage);
-                    imageView.setImageBitmap(bmp);
+                    imageView .setImageBitmap(bmp);
                 }
                 break;
         }
@@ -219,77 +237,4 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
             nota.setId(r);
         }
     }
-
-/*
-
-  public void PermisosCamara(){
-
-        camara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);                                                                           ///PERMISO CONCENDIDO
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            startActivity(camara);
-            Toast.makeText(this, "1 Permiso Concedido", Toast.LENGTH_SHORT).show();
-        } else {
-            explicarUsoPermiso();
-            solicitarPermisoHacerLlamada();
-        }
-    }
-
-    private void explicarUsoPermiso() {
-        //Este IF es necesario para saber si el usuario ha marcado o no la casilla [] No volver a preguntar
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-            Toast.makeText(this, "2.1 Explicamos razonadamente porque necesitamos el permiso", Toast.LENGTH_SHORT).show();
-            //Explicarle al usuario porque necesitas el permiso (Opcional)
-            alertDialogBasico();
-        }
-    }
-
-    private void solicitarPermisoHacerLlamada() {
-        //Pedimos el permiso o los permisos con un cuadro de dialogo del sistema
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.CAMERA}, SOLICITUD_PERMISO_CAMARA);
-
-        //startActivityForResult(camara, HACER_FOTO);
-
-        Toast.makeText(this, "2.2 Pedimos el permiso con un cuadro de dialogo del sistema", Toast.LENGTH_SHORT).show();
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == SOLICITUD_PERMISO_CAMARA) {
-
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //Realizamos la accion
-                startActivity(camara);
-                Toast.makeText(this, "3.1 Permiso Concedido", Toast.LENGTH_SHORT).show();
-            } else {
-                //1-Seguimos el proceso de ejecucion sin esta accion: Esto lo recomienda Google
-                //2-Cancelamos el proceso actual
-                //3-Salimos de la aplicacion
-                Toast.makeText(this, "3.2 Permiso No Concedido", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-
-    public void alertDialogBasico() {
-
-
-        // 1. Instancia de AlertDialog.Builder con este constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-
-
-        builder.show();
-
-    }*/
-
-
 }

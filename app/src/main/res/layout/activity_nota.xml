@@ -51,9 +51,7 @@
                     android:hint="Titulo Nota"
                     android:inputType="text"
                     android:background="@android:color/transparent"
-                    android:enabled="false"
-                    android:focusable="false"
-                />
+                    android:enabled="false" />
             </android.support.design.widget.TextInputLayout>
 
             <ScrollView
