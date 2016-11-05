@@ -25,7 +25,6 @@ import com.izv.dam.newquip.vistas.notas.VistaNota;
 public class Permisos {
 
     private static final int SOLICITUD_PERMISO_CAMARA = 1;
-    private static boolean permisos = false;
     private static Context c;
 
     public Permisos ( Context c ) {
@@ -49,4 +48,20 @@ public class Permisos {
         ActivityCompat.requestPermissions((VistaNota)c, permisos, SOLICITUD_PERMISO_CAMARA);
     }
 
+
+    public static boolean PermisosCamara1(){
+        boolean isPer = false;
+
+        if (ActivityCompat.checkSelfPermission(c, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            isPer = ActivityCompat.checkSelfPermission(c, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            solicitarPermisoHacerLlamada( c);
+        }
+        return isPer;
+    }
+
+    private static void solicitarPermisoHacerLlamada(Context c) {
+        //Pedimos el permiso o los permisos con un cuadro de dialogo del sistema
+        ActivityCompat.requestPermissions((VistaNota)c, new String[]{Manifest.permission.CAMERA}, SOLICITUD_PERMISO_CAMARA);
+    }
 }
