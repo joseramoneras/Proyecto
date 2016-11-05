@@ -70,6 +70,5 @@ public class ImprimirPDF {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }
