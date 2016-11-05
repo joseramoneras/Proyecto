@@ -131,6 +131,7 @@ public class VistaNota extends AppCompatActivity implements ContratoNota.Interfa
                 File file = new File(Environment.getExternalStorageDirectory(), MEDIA_DIRECTORY);
                 boolean isDirectoryCreated = file.exists();
                 if(!isDirectoryCreated) isDirectoryCreated = file.mkdirs();
+
                 if(isDirectoryCreated){
                     Long timestamp = System.currentTimeMillis() / 1000;
                     nombreImagen = timestamp.toString() + ".jpg";
